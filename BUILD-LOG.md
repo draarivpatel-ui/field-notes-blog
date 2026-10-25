@@ -1,0 +1,11 @@
+# Field Notes Blog build log
+
+Numbered devlog chunks for the Hack Club Stardance "Build Your Own Blog" mission (`draarivpatel-ui/field-notes-blog`).
+
+## 2026-10-25 - Devlog #1: Next.js + Mongoose backend, static GitHub Pages runtime, 4 technical posts, and live Markdown workbench
+
+1. **Mongoose models & JWT REST API (`models/`, `lib/`, `pages/api/`)**: Created `models/Post.js` (with a `pre("save")` hook that computes `wordCount` and `readingTimeMinutes` at 200 WPM) and `models/User.js`, paired with cached MongoDB connection pooling in `lib/mongodb.js` and `.env.example` with zero exposed secrets. Built `/api/auth/register` and `/api/auth/login` using `bcryptjs` and `jsonwebtoken`, plus authenticated CRUD handlers in `/api/posts/index.js` and `/api/posts/[id].js`.
+2. **Next.js React views & static GitHub Pages runtime (`pages/`, `index.html`, `about.html`, `app.js`)**: Built `pages/index.js`, `pages/about.js`, and `pages/posts/[slug].js` for the Next.js server alongside a synchronized root static runtime (`index.html`, `about.html`, `app.js`, `styles.css`) so `https://aariv.me/field-notes-blog/` serves a working interactive deployment on GitHub Pages.
+3. **Four real engineering dispatches**: Pre-loaded four technical articles covering `Regatta` (multi-agent terminal multiplexer in Electron with git worktrees), `wasitme` (local-first session telemetry and commit cadence inspector), accessible zero-maintenance websites for community nonprofits and student groups like MSA, and `Garlic Panic` (procedural vector microgames and BPM tempo scaling in Godot 4).
+4. **Four "Take It Further" features**: Implemented (1) instant tag filtering and full-text search (`/` shortcut), (2) live word-count and reading-time estimator, (3) split-pane live Markdown preview editor for logged-in authors, and (4) post reactions (*Insightful* / *Shipped*), persistent reading-queue bookmarks, and a Dark/Light editorial theme switcher.
+5. **Verification & screenshot**: Checked `app.js` with `node --check`, audited every file for privacy and typography rules (zero em/en-dashes, zero emojis, no city names or personal email), and captured a 1280x800 headless Chrome screenshot at `screenshot.png`.
