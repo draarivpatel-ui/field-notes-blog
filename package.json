@@ -1,0 +1,22 @@
+{
+  "name": "field-notes-blog",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Field Notes: Fullstack technical blog built with Next.js, React, Mongoose, and MongoDB, plus static interactive runtime for GitHub Pages.",
+  "author": "Aariv Patel",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "static:serve": "python3 -m http.server 3000"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.0",
+    "next": "^14.2.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
