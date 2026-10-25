@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Field Notes | Aariv Patel</title>
+  <meta name="description" content="About Field Notes, the engineering and design blog by Aariv Patel, freshman at Dulles High School and founder of the Digital Design Club." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230c111b' stroke='%23f59e0b' stroke-width='4'/%3E%3Ctext x='11' y='44' font-family='monospace' font-weight='700' font-size='30' fill='%23f8fafc'%3EFN%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="about">
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <a href="index.html" class="brand-link">
+        <span class="brand-badge">FN</span>
+        <div class="brand-text">
+          <span class="brand-title">Field Notes</span>
+          <span class="brand-sub">BY AARIV PATEL // DULLES HIGH SCHOOL</span>
+        </div>
+      </a>
+
+      <nav class="main-nav" aria-label="Blog navigation">
+        <a href="index.html" class="nav-item">Dispatches</a>
+        <a href="about.html" class="nav-item active">About &amp; Stack</a>
+        <a href="https://aariv.me/personal-page/" class="nav-item" target="_blank" rel="noopener noreferrer">Personal Site</a>
+        <a href="https://github.com/draarivpatel-ui/field-notes-blog" class="nav-item" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+      </nav>
+
+      <div class="top-actions">
+        <a href="index.html" class="btn-Action">Open Dispatches &amp; Editor</a>
+        <button type="button" class="btn-ghost" id="theme-switch-btn" aria-label="Toggle theme">
+          <span id="theme-switch-label">DARK</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="about-container">
+    <article class="about-sheet">
+      <div class="masthead-eyebrow">
+        <span class="badge-pill">ABOUT THE AUTHOR &amp; PLATFORM</span>
+        <span class="badge-pill">HACK CLUB STARDANCE // BUILD YOUR OWN BLOG</span>
+      </div>
+
+      <h1>Why I Built Field Notes</h1>
+      <p class="about-lead">
+        I am <strong>Aariv Patel</strong>, a ninth-grade student at Dulles High School, founder of the <strong>Digital Design Club</strong>, and builder of open-source developer tools and pro-bono community websites. Every time I shipped a project over the past year, the hardest engineering lessons were buried inside commit messages and scratch files. I built <em>Field Notes</em> to give those architecture notes a permanent, searchable home.
+      </p>
+
+      <div class="about-grid">
+        <section class="about-box">
+          <h2>Author Profile</h2>
+          <ul>
+            <li><strong>School:</strong> Freshman (9th Grade) at Dulles High School</li>
+            <li><strong>Community &amp; Leadership:</strong> Founder of the Digital Design Club; web builder for student and community organizations including MSA</li>
+            <li><strong>Other Disciplines:</strong> Competitive speech and debate; North Indian classical tabla practice (Tintal, Jhaptal, Rupak)</li>
+            <li><strong>Shipped Projects Covered Here:</strong> <code>Regatta</code>, <code>wasitme</code>, <code>AarivOS</code>, <code>Pulse</code>, <code>Devlog Timer</code>, and <code>Garlic Panic</code></li>
+          </ul>
+        </section>
+
+        <section class="about-box">
+          <h2>Dual-Mode Fullstack Architecture</h2>
+          <p>
+            To satisfy both the fullstack Next.js + MongoDB mission architecture and instant zero-server verification on GitHub Pages, this repository ships with two synchronized layers:
+          </p>
+          <ul>
+            <li>
+              <strong>Next.js + Mongoose Backend:</strong> Full schemas in <code>models/Post.js</code> and <code>models/User.js</code>, connection pooling in <code>lib/mongodb.js</code>, JWT + bcrypt authentication in <code>pages/api/auth/*</code>, and CRUD routes in <code>pages/api/posts/*</code>.
+            </li>
+            <li>
+              <strong>Interactive Browser Runtime:</strong> Root <code>index.html</code>, <code>about.html</code>, and <code>app.js</code> mirror the exact schema and auth flow in <code>localStorage</code> (automatically calling <code>/api/*</code> when a Next.js server is detected).
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="about-box full-span">
+        <h2>Four "Take It Further" Features Implemented</h2>
+        <div class="feature-matrix">
+          <div class="matrix-item">
+            <span class="matrix-num">01 // DISCOVERY</span>
+            <h3>Instant Tag Filtering &amp; Full-Text Search</h3>
+            <p>Filter dispatches by engineering topic (<code>#electron</code>, <code>#telemetry</code>, <code>#accessibility</code>, <code>#godot</code>) or search across titles, summaries, and Markdown bodies in real time.</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-num">02 // METRICS</span>
+            <h3>Live Word Count &amp; Reading-Time Estimator</h3>
+            <p>Both the Mongoose pre-save hook and the client editor calculate exact word counts and reading time (at 200 words per minute) as you type.</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-num">03 // AUTHORING</span>
+            <h3>Split-Pane Live Markdown Preview Editor</h3>
+            <p>Authenticated authors can write or edit posts in a two-column workbench with live rendered headings, code blocks, lists, and inline formatting.</p>
+          </div>
+          <div class="matrix-item">
+            <span class="matrix-num">04 // INTERACTION</span>
+            <h3>Post Reactions, Reading Queue &amp; Theme Switcher</h3>
+            <p>Readers can increment <em>Insightful</em> and <em>Shipped</em> counters, bookmark articles into a persistent reading queue, and toggle between Dark and Light editorial themes.</p>
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="blog-footer">
+    <div class="footer-wrap">
+      <span>Field Notes // Built by Aariv Patel (Dulles High School) // MIT License</span>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="https://aariv.me/personal-page/">Personal Site</a>
+        <a href="https://github.com/draarivpatel-ui/field-notes-blog">Source Code</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Field Notes | Engineering &amp; Design Dispatches by Aariv Patel</title>
+  <meta name="description" content="Field Notes is a fullstack engineering and design blog by Aariv Patel covering terminal multiplexers, session telemetry, accessible nonprofit websites, and Godot 4 microgames." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230c111b' stroke='%23f59e0b' stroke-width='4'/%3E%3Ctext x='11' y='44' font-family='monospace' font-weight='700' font-size='30' fill='%23f8fafc'%3EFN%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="home">
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <a href="index.html" class="brand-link">
+        <span class="brand-badge">FN</span>
+        <div class="brand-text">
+          <span class="brand-title">Field Notes</span>
+          <span class="brand-sub">BY AARIV PATEL // DULLES HIGH SCHOOL</span>
+        </div>
+      </a>
+
+      <nav class="main-nav" aria-label="Blog navigation">
+        <a href="index.html" class="nav-item active" id="nav-home">Dispatches</a>
+        <a href="about.html" class="nav-item">About &amp; Stack</a>
+        <a href="https://aariv.me/personal-page/" class="nav-item" target="_blank" rel="noopener noreferrer">Personal Site</a>
+        <a href="https://github.com/draarivpatel-ui/field-notes-blog" class="nav-item" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+      </nav>
+
+      <div class="top-actions">
+        <div class="auth-status-pill" id="auth-status-pill">
+          <span class="status-dot" id="auth-dot"></span>
+          <span id="auth-status-text">Reader Mode</span>
+        </div>
+        <button type="button" class="btn-Action" id="open-editor-btn" hidden>New Post</button>
+        <button type="button" class="btn-ghost" id="toggle-auth-modal-btn">Sign In / Register</button>
+        <button type="button" class="btn-ghost" id="theme-switch-btn" aria-label="Toggle theme">
+          <span id="theme-switch-label">DARK</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <!-- Left / Main Column: Feed, Reader, or Live Markdown Editor -->
+    <div class="primary-column">
+      <!-- Hero Banner -->
+      <section class="masthead-card" id="masthead-card">
+        <div class="masthead-eyebrow">
+          <span class="badge-pill">NEXT.JS + MONGOOSE + STATIC RUNTIME</span>
+          <span class="badge-pill" id="total-stats-pill">4 DISPATCHES // 2,140 WORDS</span>
+        </div>
+        <h1>Engineering notes on developer tools, session telemetry, accessible web design, and game loops.</h1>
+        <p class="masthead-desc">
+          Written by <strong>Aariv Patel</strong>, ninth-grade builder at Dulles High School and founder of the Digital Design Club. Browse the technical dispatches below, filter by tag, or sign in with an author account to draft, edit, and publish Markdown posts with live reading-time estimation.
+        </p>
+
+        <!-- Search & Tag Filter Bar (Idea #1) -->
+        <div class="search-filter-bar">
+          <div class="search-box">
+            <label for="search-input" class="sr-only">Search posts</label>
+            <input
+              type="search"
+              id="search-input"
+              placeholder="Instant full-text search across titles, summaries, and Markdown bodies (press / to focus)..."
+              autocomplete="off"
+            />
+          </div>
+          <div class="tag-strip" id="tag-strip" role="toolbar" aria-label="Filter dispatches by tag">
+            <button type="button" class="tag-chip active" data-tag="all">All Dispatches</button>
+            <button type="button" class="tag-chip" data-tag="electron">#electron</button>
+            <button type="button" class="tag-chip" data-tag="telemetry">#telemetry</button>
+            <button type="button" class="tag-chip" data-tag="accessibility">#accessibility</button>
+            <button type="button" class="tag-chip" data-tag="godot">#godot</button>
+            <button type="button" class="tag-chip" data-tag="bookmarked">Bookmarked Only</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Post Feed View -->
+      <section id="feed-view" aria-label="Blog post feed">
+        <div class="feed-list" id="feed-list"></div>
+      </section>
+
+      <!-- Single Post Reader View (Dynamic when clicking any post) -->
+      <section id="reader-view" class="reader-card" hidden aria-label="Article reader">
+        <div class="reader-top-bar">
+          <button type="button" class="btn-ghost" id="back-to-feed-btn">&larr; Back to All Dispatches</button>
+          <div class="reader-author-actions" id="reader-author-actions" hidden>
+            <button type="button" class="btn-ghost" id="reader-edit-btn">Edit Dispatch</button>
+            <button type="button" class="btn-danger" id="reader-delete-btn">Delete Dispatch</button>
+          </div>
+        </div>
+
+        <article id="reader-article">
+          <div class="reader-meta-top" id="reader-meta-top"></div>
+          <h1 class="reader-title" id="reader-title"></h1>
+          <p class="reader-summary" id="reader-summary"></p>
+          <div class="reader-tags" id="reader-tags"></div>
+          <hr class="reader-divider" />
+          <div class="markdown-rendered" id="reader-body"></div>
+        </article>
+
+        <div class="reader-reactions-bar" id="reader-reactions-bar"></div>
+      </section>
+
+      <!-- Live Split-Pane Markdown Editor View (Idea #2 & #3) -->
+      <section id="editor-view" class="editor-card" hidden aria-label="Live Markdown post editor">
+        <div class="editor-header">
+          <div>
+            <span class="eyebrow-label" id="editor-mode-label">AUTHOR WORKBENCH // CREATE DISPATCH</span>
+            <h2 id="editor-heading">Write &amp; Preview Markdown</h2>
+          </div>
+          <div class="estimator-pill" id="live-estimator-pill">
+            <span>0 words</span>
+            <span>//</span>
+            <span>1 min read</span>
+          </div>
+        </div>
+
+        <form id="post-editor-form" class="editor-form">
+          <input type="hidden" id="edit-post-id" value="" />
+          <div class="form-row-two">
+            <div class="field-group">
+              <label for="post-title-input">Post Title</label>
+              <input type="text" id="post-title-input" required maxlength="160" placeholder="e.g., Designing Deterministic Worktree Locks in Node.js" />
+            </div>
+            <div class="field-group">
+              <label for="post-tags-input">Tags (comma-separated)</label>
+              <input type="text" id="post-tags-input" required placeholder="electron, devtools, architecture" value="devtools, architecture" />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="post-summary-input">Executive Summary (1-2 sentences shown on cards)</label>
+            <input type="text" id="post-summary-input" required maxlength="360" placeholder="Concise summary of the technical problem, architecture, and results..." />
+          </div>
+
+          <div class="split-editor-grid">
+            <div class="split-pane">
+              <div class="pane-label">
+                <span>MARKDOWN SOURCE</span>
+                <span class="pane-hint">Supports ## headings, `code`, ```blocks```, *lists*, and **bold**</span>
+              </div>
+              <textarea id="post-content-input" rows="14" required placeholder="## Context&#10;&#10;Write your technical dispatch in Markdown..."></textarea>
+            </div>
+            <div class="split-pane preview-pane">
+              <div class="pane-label">
+                <span>LIVE RENDERED PREVIEW</span>
+                <span class="pane-hint" id="preview-char-count">0 chars</span>
+              </div>
+              <div id="live-markdown-preview" class="markdown-rendered preview-box"></div>
+            </div>
+          </div>
+
+          <div class="editor-footer-actions">
+            <button type="button" class="btn-ghost" id="cancel-editor-btn">Cancel</button>
+            <button type="submit" class="btn-Action" id="save-post-btn">Publish Dispatch</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <!-- Right Sidebar: Author Auth Workbench, Bookmarks, & Stack Specs -->
+    <aside class="sidebar-column" aria-label="Author account and blog telemetry">
+      <!-- Auth Card -->
+      <section class="sidebar-card" id="auth-sidebar-card">
+        <div class="card-kicker">AUTHENTICATION // SESSION</div>
+        <div id="logged-out-view">
+          <h3>Author Sign In or Register</h3>
+          <p class="sidebar-note">
+            Create an account or use the demo author credentials below to publish new posts, edit existing dispatches, or delete entries.
+          </p>
+
+          <div class="auth-tabs" role="tablist">
+            <button type="button" class="auth-tab active" data-auth-tab="login">Log In</button>
+            <button type="button" class="auth-tab" data-auth-tab="register">Create Account</button>
+          </div>
+
+          <form id="auth-form" class="auth-form">
+            <div class="field-group">
+              <label for="auth-username">Username</label>
+              <input type="text" id="auth-username" required placeholder="aariv" value="aariv" />
+            </div>
+            <div class="field-group" id="auth-displayname-group" hidden>
+              <label for="auth-displayname">Display Name</label>
+              <input type="text" id="auth-displayname" placeholder="Aariv Patel" />
+            </div>
+            <div class="field-group">
+              <label for="auth-password">Password</label>
+              <input type="password" id="auth-password" required placeholder="stardance2026" value="stardance2026" />
+            </div>
+            <p class="auth-feedback" id="auth-feedback" hidden></p>
+            <button type="submit" class="btn-Action full-width" id="auth-submit-btn">Sign In to Author Workbench</button>
+          </form>
+
+          <div class="demo-creds-box">
+            <span>Pre-seeded Author Account:</span>
+            <code>user: aariv // pass: stardance2026</code>
+          </div>
+        </div>
+
+        <div id="logged-in-view" hidden>
+          <h3>Author Session Active</h3>
+          <p class="sidebar-note">
+            Signed in as <strong id="active-user-display">Aariv Patel</strong> (<code id="active-user-handle">@aariv</code>). You have full permission to publish, edit, and delete posts.
+          </p>
+          <div class="logged-in-actions">
+            <button type="button" class="btn-Action full-width" id="sidebar-new-post-btn">+ Draft New Dispatch</button>
+            <button type="button" class="btn-ghost full-width" id="logout-btn">Log Out</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Saved Bookmarks Card (Idea #4) -->
+      <section class="sidebar-card">
+        <div class="card-kicker">READING QUEUE // BOOKMARKS</div>
+        <h3>Saved Dispatches</h3>
+        <ul class="bookmark-list" id="bookmark-list">
+          <li class="empty-bookmark">Click "Bookmark" on any post to save it to your reading queue.</li>
+        </ul>
+      </section>
+
+      <!-- Stack & Architecture Card -->
+      <section class="sidebar-card">
+        <div class="card-kicker">SYSTEM ARCHITECTURE</div>
+        <h3>Fullstack + Static Hybrid</h3>
+        <ul class="arch-list">
+          <li><strong>Models:</strong> <code>models/Post.js</code> &amp; <code>models/User.js</code> (Mongoose schemas with pre-save reading-time hooks)</li>
+          <li><strong>API Routes:</strong> <code>/api/posts</code>, <code>/api/posts/[id]</code>, <code>/api/auth/register</code>, <code>/api/auth/login</code></li>
+          <li><strong>4 Bonus Features:</strong> Instant tag + full-text search, live word/minute estimator, split-pane Markdown preview, and reactions/bookmarks + theme switcher</li>
+        </ul>
+        <button type="button" class="btn-ghost full-width reset-data-btn" id="reset-demo-data-btn">
+          Restore Default 4 Dispatches
+        </button>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="blog-footer">
+    <div class="footer-wrap">
+      <span>Field Notes // Built by Aariv Patel (Dulles High School) // MIT License</span>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="https://aariv.me/personal-page/">Personal Site</a>
+        <a href="https://github.com/draarivpatel-ui/field-notes-blog">Source Code</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
