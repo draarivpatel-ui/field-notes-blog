@@ -23,6 +23,10 @@ function slugify(title) {
     .slice(0, 80);
 }
 
+function escapeRegex(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 export default async function handler(req, res) {
   await dbConnect();
 
@@ -34,7 +38,7 @@ export default async function handler(req, res) {
         filter.tags = String(tag).toLowerCase();
       }
       if (q) {
-        const regex = new RegExp(String(q), "i");
+        const regex = new RegExp(escapeRegex(String(q)), "i");
         filter.$or = [{ title: regex }, { summary: regex }, { content: regex }];
       }
       const posts = await Post.find(filter).sort({ createdAt: -1 }).lean();
