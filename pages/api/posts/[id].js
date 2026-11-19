@@ -45,6 +45,9 @@ export default async function handler(req, res) {
         return res.status(404).json({ error: "Post not found." });
       }
 
+      if (post.authorUsername !== claims.username) {
+        return res.status(403).json({ error: "Only the author can edit this post." });
+      }
       const { title, summary, content, tags } = req.body || {};
       if (title) post.title = String(title).trim();
       if (summary) post.summary = String(summary).trim();
@@ -72,7 +75,14 @@ export default async function handler(req, res) {
     }
 
     try {
-      const deleted = await Post.findOneAndDelete(findQuery);
+      const post = await Post.findOne(findQuery);
+      if (!post) {
+        return res.status(404).json({ error: "Post not found." });
+      }
+      if (post.authorUsername !== claims.username) {
+        return res.status(403).json({ error: "Only the author can delete this post." });
+      }
+      const deleted = await Post.findOneAndDelete({ _id: post._id });
       if (!deleted) {
         return res.status(404).json({ error: "Post not found." });
       }
